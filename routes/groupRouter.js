@@ -2,7 +2,6 @@ const express=require('express');
 const{groupCreate,getallexpenseGroup} = require('../controllers/groupController');
 
 
-
 const groupRouter=express.Router();
 
 

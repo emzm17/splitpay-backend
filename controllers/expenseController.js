@@ -1,6 +1,7 @@
-
 const db=require('../database');
-
+const redis=require('redis');
+const redisclient=redis.createClient();
+redisclient.connect();
 
 
 const getallExpense = async(req,res)=>{
@@ -24,23 +25,39 @@ const getallExpense = async(req,res)=>{
 
 
 const getparticularExpense=async(req,res)=>{
-    try {
-        const id=req.params.id;
-      
-        const group = await db.query(
-            `SELECT * FROM expenses where expense_id=?`,[id]
-        );
-    
-        // console.log("Group Length:", group);
-        if (group[0].length===0) {
-            return res.status(404).json({ message: "No expense found" });
-        }
-    
-        res.json(group[0]);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Something went wrong" });
+ 
+   
+    let keyname='getexpense';
+    let cached=await redisclient.get(keyname);
+    // redisclient.disconnect();
+
+    if(cached){
+        //  console.log('cached');
+        //  const result = await redisclient.get(keyname);
+        //  console.log(result);
+
+         res.json(JSON.parse(cached));
     }
+    else{
+        try {
+            // console.log('first time cached');
+            const id=req.params.id;
+            const group = await db.query(
+                `SELECT * FROM expenses where expense_id=?`,[id]
+            );
+        
+            // console.log("Group Length:", group);
+            if (group[0].length===0) {
+                return res.status(404).json({ message: "No expense found" });
+            }
+            redisclient.set(keyname,JSON.stringify((group[0])),{EX:30});
+            res.json(group[0]);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Something went wrong" });
+        }
+    }
+    
 }
 
 const createExpense=async(req,res)=>{
@@ -60,7 +77,7 @@ const createExpense=async(req,res)=>{
    }
    
 }
-
+// redisclient.disconnect();
 module.exports={
     createExpense,getallExpense,getparticularExpense
 };

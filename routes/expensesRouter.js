@@ -6,7 +6,7 @@ const expensesRouter=express.Router();
 // get all expense from table
 expensesRouter.get('/',auth,getallExpense);
 
-// get particular expense from table
+// get all expense from particular group id
 expensesRouter.get('/:id',auth,getparticularExpense);
 
 

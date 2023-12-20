@@ -1,12 +1,14 @@
 const express=require('express');
 const{groupCreate,getallexpenseGroup} = require('../controllers/groupController');
+const auth=require('../middleware/auth');
+
 
 
 const groupRouter=express.Router();
 
 
 // creation of group
-groupRouter.post('/create',groupCreate)
+groupRouter.post('/create',auth,groupCreate)
 
 // search for a expense in group
 // groupRouter.get('/:id',async(req,res)=>{
@@ -32,7 +34,7 @@ groupRouter.post('/create',groupCreate)
    
 
    // get all expense of that group;
-groupRouter.get('/:id',getallexpenseGroup)
+groupRouter.get('/:id',auth,getallexpenseGroup)
 
 
 

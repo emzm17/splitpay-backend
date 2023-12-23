@@ -3,13 +3,13 @@ const db=require('../database');
 
 const groupCreate= async (req,res)=>{
         // destructure the name
-         const {name,users_id}=req.body;
+         const {name,users_id,created_by}=req.body;
         
          const users_id_json=JSON.stringify(users_id);
          // console.log(users_id_json);
          try{
             const new_group=await db.query(
-               `INSERT INTO group_s (name,users_id) value (?,?)`,[name,users_id_json]
+               `INSERT INTO group_s (name,users_id,created_by) value (?,?,?)`,[name,users_id_json,created_by]
             );
             
             res.send({message:"new group created"});

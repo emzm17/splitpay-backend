@@ -36,7 +36,7 @@ const getparticularExpense=async(req,res)=>{
         //  const result = await redisclient.get(keyname);
         //  console.log(result);
 
-         res.json(JSON.parse(cached));
+        return res.json(JSON.parse(cached));
     }
     else{
         try {
@@ -51,7 +51,7 @@ const getparticularExpense=async(req,res)=>{
                 return res.status(404).json({ message: "No expense found" });
             }
             redisclient.set(keyname,JSON.stringify((group[0])),{EX:30});
-            res.json(group[0]);
+           return  res.json(group[0]);
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Something went wrong" });

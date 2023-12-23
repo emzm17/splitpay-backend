@@ -1,6 +1,9 @@
 const db=require('../database');
 const jwt=require('jsonwebtoken');
 const bcrypt=require('bcrypt');
+const redis=require('redis');
+const redisclient=redis.createClient();
+redisclient.connect();
 const dotenv=require('dotenv');
 dotenv.config();
 
@@ -12,7 +15,16 @@ const getallUser = async (req,res)=>{
 }
 
 const getallgroup= async(req,res)=>{
-    const id=req.params.id;
+    let keyname='getappGroups';
+    let cached=await redisclient.get(keyname);
+
+    if(cached){
+           return  res.json(JSON.parse(cached));
+    }
+    else{
+
+        const id=req.user_id;
+        
     try{
         const groups=await db.query(
            `SELECT * FROM group_s`
@@ -24,18 +36,23 @@ const getallgroup= async(req,res)=>{
         for(let i=0;i<groups[0].length;i++){
                   const currgroup=JSON.stringify(groups[0][i].users_id);
                    for(let j=0;j<currgroup.length;j++){
-                     if(id===currgroup[j]){
+                    console.log(currgroup[j]);
+                     if(id===parseInt(currgroup[j])){
                          total_groups.push(groups[0][i]);
                          break;
                      }
                    }
         }
+        
+        redisclient.set(keyname,JSON.stringify((total_groups)),{EX:30});
         res.send(total_groups);
      }catch(error){
         console.log(error);
         res.status(500).json({message:"something went wrong"});
      }
      
+    }
+    
 }
 
 const signup=async(req,res)=>{
@@ -129,29 +146,6 @@ try {
 
 
 
-const updateInfo = async(req,res)=>{
-    const {name,email,password}=req.body;
-    const id = req.user_id
-    
-    const hashedpassword=await bcrypt.hash(password,10);
-      try{
-         const existingUser=await db.query(
-            `UPDATE users SET name = ?,email = ?,password = ?  where user_id = ?`,[name,email,hashedpassword,id]
-         );
-
-        //  console.log(existingUser[0].affectedRows);  
-         if (existingUser[0].affectedRows > 0) {
-            res.json({ message: 'User data updated' });
-          } else {
-            res.status(404).json({ message: 'User not found' });
-          }
-        
-         
-      } catch(error){
-          console.log(error);
-          res.status(500).json({message:"something went wrong"});
-      }
-}
 
 
 
@@ -165,5 +159,5 @@ const updateInfo = async(req,res)=>{
 
 
 module.exports={
-    getallUser,getallgroup,signup,signin,updateInfo
+    getallUser,getallgroup,signup,signin,
 }

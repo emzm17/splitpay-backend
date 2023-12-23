@@ -1,44 +1,21 @@
-const express = require('express');
-const dotenv=require('dotenv');
+const express = require("express");
+const dotenv = require("dotenv");
 dotenv.config();
 
-const app=express();
-const PORT=process.env.PORT || 8080;
+const app = express();
+const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
+const userRouter = require("./routes/userRouter");
+const groupRouter = require("./routes/groupRouter");
+const expensesRouter = require("./routes/expensesRouter");
+const settlementRouter = require("./routes/settlementRouter");
 
-const userRouter = require('./routes/userRouter');
-const groupRouter = require('./routes/groupRouter');
-const expensesRouter = require('./routes/expensesRouter');
-const settlementRouter = require('./routes/settlementRouter');
+app.use("/users", userRouter);
+app.use("/groups", groupRouter);
+app.use("/expenses", expensesRouter);
+app.use("/settlement", settlementRouter);
 
-
-app.use('/users',userRouter);
-app.use('/groups',groupRouter);
-app.use('/expenses',expensesRouter);
-app.use('/settlement',settlementRouter);
-
-
-
-
-app.listen(PORT,( )=>{
-      console.log('server is running at port no 8080');
+app.listen(PORT, () => {
+  console.log("server is running at port no 8080");
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

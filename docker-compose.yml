@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  splitpay-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.nodejs
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8080:8080"
+    # depends_on:
+    #   - redis-server
+    env_file: .env  
+    environment:
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      SECRET_KEY: ${SECRET_KEY}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+
+    networks:
+      - my-networks    
+    
+  # redis-server:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.redis
+  #   ports:
+  #     - "7379:7379"
+  #   networks:
+  #     - my-networks  
+
+networks:
+  my-networks:
+    driver: bridge  
+

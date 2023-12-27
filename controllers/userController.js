@@ -1,12 +1,18 @@
 const db=require('../database');
 const jwt=require('jsonwebtoken');
-const bcrypt=require('bcrypt');
+const bcryptjs=require('bcryptjs');
 const redis=require('redis');
-const redisclient=redis.createClient();
-redisclient.connect();
-
 const dotenv=require('dotenv');
 dotenv.config();
+const redisclient = redis.createClient({
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT
+    }
+});
+
+
 
 
 
@@ -18,6 +24,7 @@ const getallUser = async (req,res)=>{
 }
 
 const getallgroup= async(req,res)=>{
+    redisclient.connect();
     let keyname='getappGroups';
     let cached=await redisclient.get(keyname);
 
@@ -75,7 +82,7 @@ const signup=async(req,res)=>{
          } 
 
 
-         const hashedpassword=await bcrypt.hash(password,10);
+         const hashedpassword=await bcryptjs.hash(password,10);
          
          
          const user=await db.query(
@@ -115,7 +122,7 @@ try {
 
 
   
-    bcrypt.compare(password, existingCurrUser.password ,(err,result)=>{
+    bcryptjs.compare(password, existingCurrUser.password ,(err,result)=>{
         if(err){
             return res.status(500).json({ message: 'Internal Server Error' });
         }

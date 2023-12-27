@@ -4,10 +4,10 @@ dotenv.config();
 
 const connection = mysql
   .createPool({
-    host: process.env.HOST,
-    user: process.env.user,
-    password: process.env.password,
-    database: process.env.database,
+    host: process.env.DB_HOST,
+    user: process.env.DB_user,
+    password: process.env.DB_password,
+    database: process.env.DB_database,
     connectTimeout: 20000 
   }).promise()
 

@@ -1,7 +1,15 @@
 const db=require('../database');
 const redis=require('redis');
-const redisclient=redis.createClient();
-redisclient.connect();
+const dotenv=require('dotenv');
+dotenv.config();
+
+const redisclient = redis.createClient({
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT
+    }
+});
 
 const getallExpense = async(req,res)=>{
     try {
@@ -24,7 +32,7 @@ const getallExpense = async(req,res)=>{
 
 
 const getparticularExpense=async(req,res)=>{
- 
+    redisclient.connect();
    
     let keyname='getexpense';
     let cached=await redisclient.get(keyname);

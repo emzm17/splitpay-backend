@@ -4,8 +4,11 @@ const bcrypt=require('bcrypt');
 const redis=require('redis');
 const redisclient=redis.createClient();
 redisclient.connect();
+
 const dotenv=require('dotenv');
 dotenv.config();
+
+
 
 const getallUser = async (req,res)=>{
     const users= await db.query(
@@ -36,7 +39,7 @@ const getallgroup= async(req,res)=>{
         for(let i=0;i<groups[0].length;i++){
                   const currgroup=JSON.stringify(groups[0][i].users_id);
                    for(let j=0;j<currgroup.length;j++){
-                    console.log(currgroup[j]);
+                    // console.log(currgroup[j]);
                      if(id===parseInt(currgroup[j])){
                          total_groups.push(groups[0][i]);
                          break;

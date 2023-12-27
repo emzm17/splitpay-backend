@@ -3,7 +3,6 @@ const redis=require('redis');
 const redisclient=redis.createClient();
 redisclient.connect();
 
-
 const getallExpense = async(req,res)=>{
     try {
       
@@ -16,7 +15,7 @@ const getallExpense = async(req,res)=>{
             return res.status(404).json({ message: "No expense found" });
         }
     
-        res.json(group[0]);
+        res.status(201).json(group[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Something went wrong" });
@@ -36,7 +35,7 @@ const getparticularExpense=async(req,res)=>{
         //  const result = await redisclient.get(keyname);
         //  console.log(result);
 
-        return res.json(JSON.parse(cached));
+        return res.status(201).json(JSON.parse(cached));
     }
     else{
         try {

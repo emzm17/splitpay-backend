@@ -11,6 +11,8 @@ services:
       - "8080:8080"
     # depends_on:
     #   - redis-server
+    deploy:
+      - replicas: 2
     env_file: .env  
     environment:
       DB_DATABASE: ${DB_DATABASE}

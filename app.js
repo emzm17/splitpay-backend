@@ -11,6 +11,10 @@ const groupRouter = require("./routes/groupRouter");
 const expensesRouter = require("./routes/expensesRouter");
 const settlementRouter = require("./routes/settlementRouter");
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
  app.use("/users", userRouter);
  app.use("/groups", groupRouter);
  app.use("/expenses", expensesRouter);

@@ -10,6 +10,7 @@ const userRouter = require("./routes/userRouter");
 const groupRouter = require("./routes/groupRouter");
 const expensesRouter = require("./routes/expensesRouter");
 const settlementRouter = require("./routes/settlementRouter");
+const profileRouter=requrie("./routes/profileRouter");
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
  app.use("/groups", groupRouter);
  app.use("/expenses", expensesRouter);
  app.use("/settlement", settlementRouter);
+ app.use('/profile',profileRouter);
 
 
 

@@ -1,16 +1,13 @@
 const db=require('../database');
-const redis=require('redis');
+const redis=require('ioredis');
 const dotenv=require('dotenv');
 dotenv.config();
 
-const redisclient = redis.createClient({
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT
-    }
-});
-
+const redisclient = new redis({
+    host:'redis',
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD
+})
 const getallExpense = async(req,res)=>{
     try {
       
@@ -32,11 +29,11 @@ const getallExpense = async(req,res)=>{
 
 
 const getparticularExpense=async(req,res)=>{
-    redisclient.connect();
+   
    
     let keyname='getexpense';
     let cached=await redisclient.get(keyname);
-    // redisclient.disconnect();
+  
 
     if(cached){
         //  console.log('cached');
@@ -50,10 +47,10 @@ const getparticularExpense=async(req,res)=>{
             // console.log('first time cached');
             const id=req.params.id;
             const group = await db.query(
-                `SELECT * FROM expenses where expense_id=?`,[id]
+                `SELECT * FROM expenses where group_id=?`,[id]
             );
         
-            // console.log("Group Length:", group);
+            console.log(group);
             if (group[0].length===0) {
                 return res.status(404).json({ message: "No expense found" });
             }
@@ -84,7 +81,7 @@ const createExpense=async(req,res)=>{
    }
    
 }
-// redisclient.disconnect();
+
 module.exports={
     createExpense,getallExpense,getparticularExpense
 };

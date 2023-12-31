@@ -1,2 +1,2 @@
 FROM redis:latest
-EXPOSE 7379
+EXPOSE 6379

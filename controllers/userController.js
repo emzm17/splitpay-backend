@@ -1,19 +1,14 @@
 const db=require('../database');
 const jwt=require('jsonwebtoken');
 const bcryptjs=require('bcryptjs');
-const redis=require('redis');
+const redis=require('ioredis');
 const dotenv=require('dotenv');
 dotenv.config();
-const redisclient = redis.createClient({
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT
-    }
+const redisclient = new redis({
+    host:'redis',
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD
 });
-
-
-
 
 
 const getallUser = async (req,res)=>{
@@ -24,7 +19,7 @@ const getallUser = async (req,res)=>{
 }
 
 const getallgroup= async(req,res)=>{
-    redisclient.connect();
+    // redisclient.connect();
     let keyname='getappGroups';
     let cached=await redisclient.get(keyname);
 
@@ -78,7 +73,7 @@ const signup=async(req,res)=>{
             `SELECT * FROM users WHERE email=?`,[email]
          );
          if(existingUser[0].length > 0){
-            return res.status(400).json({message:"user already exist"});
+            return res.status(400).json({message:"user already exist please signin"});
          } 
 
 

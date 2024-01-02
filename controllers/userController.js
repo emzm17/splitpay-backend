@@ -1,11 +1,15 @@
 const db=require('../database');
 const jwt=require('jsonwebtoken');
-const bcrypt=require('bcrypt');
-const redis=require('redis');
-const redisclient=redis.createClient();
-redisclient.connect();
+const bcryptjs=require('bcryptjs');
+const redis=require('ioredis');
 const dotenv=require('dotenv');
 dotenv.config();
+const redisclient = new redis({
+    host:'redis',
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD
+});
+
 
 const getallUser = async (req,res)=>{
     const users= await db.query(
@@ -15,6 +19,7 @@ const getallUser = async (req,res)=>{
 }
 
 const getallgroup= async(req,res)=>{
+    // redisclient.connect();
     let keyname='getappGroups';
     let cached=await redisclient.get(keyname);
 
@@ -36,7 +41,7 @@ const getallgroup= async(req,res)=>{
         for(let i=0;i<groups[0].length;i++){
                   const currgroup=JSON.stringify(groups[0][i].users_id);
                    for(let j=0;j<currgroup.length;j++){
-                    console.log(currgroup[j]);
+                    // console.log(currgroup[j]);
                      if(id===parseInt(currgroup[j])){
                          total_groups.push(groups[0][i]);
                          break;
@@ -68,11 +73,11 @@ const signup=async(req,res)=>{
             `SELECT * FROM users WHERE email=?`,[email]
          );
          if(existingUser[0].length > 0){
-            return res.status(400).json({message:"user already exist"});
+            return res.status(400).json({message:"user already exist please signin"});
          } 
 
 
-         const hashedpassword=await bcrypt.hash(password,10);
+         const hashedpassword=await bcryptjs.hash(password,10);
          
          
          const user=await db.query(
@@ -112,7 +117,7 @@ try {
 
 
   
-    bcrypt.compare(password, existingCurrUser.password ,(err,result)=>{
+    bcryptjs.compare(password, existingCurrUser.password ,(err,result)=>{
         if(err){
             return res.status(500).json({ message: 'Internal Server Error' });
         }

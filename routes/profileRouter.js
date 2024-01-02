@@ -8,3 +8,7 @@ const {updateInfo}=require('../controllers/profileController');
 
 
 profileRouter.put('/',auth,updateInfo);
+
+
+
+module.exports=profileRouter;

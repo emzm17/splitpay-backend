@@ -16,7 +16,7 @@ create table `group_s`(
 create table `expenses`(
      expense_id INT PRIMARY KEY AUTO_INCREMENT,
      amount DECIMAL(10,2) NOT NULL,
-     decription VARCHAR(255) NOT NULL,
+     description VARCHAR(255) NOT NULL,
      created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
      payer_id INT NOT NULL,
      group_id INT NOT NULL,

@@ -11,7 +11,7 @@ const redisclient = redis.createClient({
         port: process.env.REDIS_PORT
     }
 });
-
+redisclient.connect();
 
 
 
@@ -24,7 +24,7 @@ const getallUser = async (req,res)=>{
 }
 
 const getallgroup= async(req,res)=>{
-    redisclient.connect();
+ 
     let keyname='getappGroups';
     let cached=await redisclient.get(keyname);
 
@@ -118,7 +118,7 @@ try {
     }
 
     const existingCurrUser = existingUser[0][0];
-    console.log(existingCurrUser);
+    // console.log(existingCurrUser);
 
 
   

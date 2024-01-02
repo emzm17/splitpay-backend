@@ -1,15 +1,16 @@
 const db=require('../database');
-const redis=require('redis');
 const dotenv=require('dotenv');
+const redis=require('redis');
 dotenv.config();
 
-const redisclient = redis.createClient({
+const redisconnection = redis.createClient({
     password: process.env.REDIS_PASSWORD,
     socket: {
         host: process.env.REDIS_HOST,
         port: process.env.REDIS_PORT
     }
 });
+redisconnection.connect();
 
 const getallExpense = async(req,res)=>{
     try {
@@ -32,10 +33,10 @@ const getallExpense = async(req,res)=>{
 
 
 const getparticularExpense=async(req,res)=>{
-    redisclient.connect();
-   
+
+
     let keyname='getexpense';
-    let cached=await redisclient.get(keyname);
+    let cached=await  redisconnection.get(keyname);
     // redisclient.disconnect();
 
     if(cached){
@@ -50,21 +51,21 @@ const getparticularExpense=async(req,res)=>{
             // console.log('first time cached');
             const id=req.params.id;
             const group = await db.query(
-                `SELECT * FROM expenses where expense_id=?`,[id]
+                `SELECT * FROM expenses where  group_id=?`,[id]
             );
         
             // console.log("Group Length:", group);
             if (group[0].length===0) {
                 return res.status(404).json({ message: "No expense found" });
             }
-            redisclient.set(keyname,JSON.stringify((group[0])),{EX:30});
+            redisconnection.set(keyname,JSON.stringify((group[0])),{EX:30});
            return  res.json(group[0]);
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Something went wrong" });
         }
     }
-    
+    //  redisconnection.disconnect();
 }
 
 const createExpense=async(req,res)=>{

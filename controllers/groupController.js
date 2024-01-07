@@ -2,23 +2,31 @@
 const db=require('../database');
 
 const groupCreate= async (req,res)=>{
-        // destructure the name
-         const {name,users_id,created_by}=req.body;
-        
-         const users_id_json=JSON.stringify(users_id);
-         // console.log(users_id_json);
-         try{
-            const new_group=await db.query(
-               `INSERT INTO group_s (name,users_id,created_by) value (?,?,?)`,[name,users_id_json,created_by]
-            );
-            
-            res.send({message:"new group created"});
+   // destructure the name
+    const {name,users_id,created_by}=req.body;
+   
+    const users_id_json=JSON.stringify(users_id);
+    let temp_string="";
+    for(let i=0;i<users_id_json.length;i++){
+        if(i===users_id_json.length-1){
+           temp_string+=","
+           temp_string+=`${created_by}`
+        }
+        temp_string+=users_id_json[i]   
+    }
+    // console.log(temp_string);
+    try{
+       const new_group=await db.query(
+          `INSERT INTO group_s (name,users_id,created_by) value (?,?,?)`,[name,temp_string,created_by]
+       );
+       
+       res.send({message:"new group created"});
 
-         }catch(error){
-            console.log(error);
-            res.status(500).json({message:"something went wrong"});
-         }
-         
+    }catch(error){
+       console.log(error);
+       res.status(500).json({message:"something went wrong"});
+    }
+    
 }
 
 const getallexpenseGroup=async (req,res)=>{

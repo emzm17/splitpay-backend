@@ -6,7 +6,10 @@ create table `users`(
      user_id INT PRIMARY KEY AUTO_INCREMENT,
      name VARCHAR(255) NOT NULL,
      email VARCHAR(255) NOT NULL,
-     password VARCHAR(255) NOT NULL
+     password VARCHAR(255) NOT NULL,
+     totalAmount DECIMAL(10,2),
+     totalOwe DECIMAL(10,2),
+     totalOwed DECIMAL(10,2)
 );
 
 DROP TABLE IF EXISTS `group_s`;

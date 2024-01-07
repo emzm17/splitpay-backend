@@ -8,6 +8,7 @@ const connection = mysql
     user: process.env.DB_user,
     password: process.env.DB_password,
     database: process.env.DB_database,
+    port: process.env.DB_PORT, 
     connectTimeout: 20000 
   }).promise()
 

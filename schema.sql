@@ -1,9 +1,18 @@
+CREATE DATABASE IF NOT EXISTS `splitpay`;
+USE `splitpay`;
+
+DROP TABLE IF EXISTS `users`;
 create table `users`(
      user_id INT PRIMARY KEY AUTO_INCREMENT,
      name VARCHAR(255) NOT NULL,
      email VARCHAR(255) NOT NULL,
-     password VARCHAR(255) NOT NULL
+     password VARCHAR(255) NOT NULL,
+     totalAmount DECIMAL(10,2),
+     totalOwe DECIMAL(10,2),
+     totalOwed DECIMAL(10,2)
 );
+
+DROP TABLE IF EXISTS `group_s`;
 create table `group_s`(
      id INT PRIMARY KEY AUTO_INCREMENT,
      name VARCHAR(255) NOT NULL,
@@ -13,6 +22,7 @@ create table `group_s`(
      FOREIGN KEY (created_by) REFERENCES users(user_id)
 );
 
+DROP TABLE IF EXISTS `expenses`;
 create table `expenses`(
      expense_id INT PRIMARY KEY AUTO_INCREMENT,
      amount DECIMAL(10,2) NOT NULL,

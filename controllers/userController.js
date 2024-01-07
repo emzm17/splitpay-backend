@@ -66,42 +66,40 @@ const getallgroup= async(req,res)=>{
 }
 
 const signup=async(req,res)=>{
-    // Existing user check
-      // hash password
-      // user creation 
-      // token generate
 
-      const {name,email,password}=req.body;
-      
-      try{
-         const existingUser=await db.query(
-            `SELECT * FROM users WHERE email=?`,[email]
-         );
-         if(existingUser[0].length > 0){
-            return res.status(400).json({message:"user already exist"});
-         } 
+    const {name,email,password}=req.body;
+    
+    try{
+       const existingUser=await db.query(
+          `SELECT * FROM users WHERE email=?`,[email]
+       );
+       if(existingUser[0].length > 0){
+          return res.status(400).json({message:"user already exist"});
+       } 
 
 
-         const hashedpassword=await bcryptjs.hash(password,10);
+       const hashedpassword=await bcryptjs.hash(password,10);
+       
+       
+       const user=await db.query(
+          `INSERT INTO users(name,email,password,totalAmount,totalOwe,totalOwed) values(?,?,?,?,?,?)`,[name,email,hashedpassword,0,0,0]
+       );
+
+       // Generate the token with Payload+SECRET_KEY
+       const token=jwt.sign({
+          email:user.email,id:user.user_id   // Payload create 
+       },process.env.SECRET_KEY);
+       res.status(201).json({
+          user:user,result:token
          
-         
-         const user=await db.query(
-            `INSERT INTO users(name,email,password) values(?,?,?)`,[name,email,hashedpassword]
-         );
-
-         const token=jwt.sign({
-            email:user.email,id:user.user_id
-         },process.env.SECRET_KEY);
-         res.status(201).json({
-            user:user,result:token
-           
-         });
-         
-      } catch(error){
-          console.log(error);
-          res.status(500).json({message:"something went wrong"});
-      }
+       });
+       
+    } catch(error){
+        console.log(error);
+        res.status(500).json({message:"something went wrong"});
+    }
 }
+
 
 
 const signin=async(req,res)=>{

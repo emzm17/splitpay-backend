@@ -5,7 +5,6 @@ Splitpay is a collaborative finance management application designed to streamlin
 ## Table of Contents
 
 - [Installation](#installation)
-- [Requirement](#requirement)
 - [Run](#run)
 - [API](#api)
 
@@ -15,13 +14,6 @@ Splitpay is a collaborative finance management application designed to streamlin
     git clone https://github.com/emzm17/splitpay-backend.git
     cd splitpay-backend/
 
-## Requirement
-      
-- Mysql Database
-- Redis server
-- Secret Key
->>>>>>> deploy1
-  
 ## Run the app
 
 

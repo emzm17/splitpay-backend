@@ -1,15 +1,10 @@
-<<<<<<< HEAD
 # Splitpay Backend Application
-=======
-# Splitwise Backend Application
->>>>>>> deploy1
 Splitpay is a collaborative finance management application designed to streamline the process of splitting and settling expenses among a group of users. The platform allows users to create groups, add expenses, and keep track of who owes whom.
 
 
 ## Table of Contents
 
 - [Installation](#installation)
-- [Requirement](#requirement)
 - [Run](#run)
 - [API](#api)
 
@@ -19,16 +14,6 @@ Splitpay is a collaborative finance management application designed to streamlin
     git clone https://github.com/emzm17/splitpay-backend.git
     cd splitpay-backend/
 
-## Requirement
-<<<<<<< HEAD
-     set up the environment variable as per your requirement.     
-=======
-      
-- Mysql Database
-- Redis server
-- Secret Key
->>>>>>> deploy1
-  
 ## Run the app
 
 

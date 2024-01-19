@@ -50,6 +50,52 @@ Splitpay is a collaborative finance management application designed to streamlin
 * `POST` : Create expense.
 #### `/settlement/:id`
 * `GET` : Get settle the expenses.
+
+## Database Schema 
+   
+    
+### Users Table
+| Column        | Data Type         | Constraints          |
+|---------------|-------------------|----------------------|
+| user_id       | INT               | PRIMARY KEY, AUTO_INCREMENT |
+| name          | VARCHAR(255)      | NOT NULL             |
+| email         | VARCHAR(255)      | NOT NULL             |
+| password      | VARCHAR(255)      | NOT NULL             |
+| totalAmount   | DECIMAL(10,2)     |                      |
+| totalOwe      | DECIMAL(10,2)     |                      |
+| totalOwed     | DECIMAL(10,2)     |                      |
+| friend_list   | JSON              |                      |
+
+### Group Table
+| Column        | Data Type         | Constraints                        |
+|---------------|-------------------|------------------------------------|
+| id            | INT               | PRIMARY KEY, AUTO_INCREMENT         |
+| name          | VARCHAR(255)      | NOT NULL                           |
+| created       | TIMESTAMP         | DEFAULT CURRENT_TIMESTAMP          |
+| users_id      | JSON              | NOT NULL                           |
+| created_by    | INT               | NOT NULL                           |
+|               |                   | FOREIGN KEY (created_by) REFERENCES users(user_id) |
+
+### Expense Table
+| Column        | Data Type         | Constraints                                    |
+|---------------|-------------------|------------------------------------------------|
+| expense_id    | INT               | PRIMARY KEY, AUTO_INCREMENT                   |
+| amount        | DECIMAL(10,2)     | NOT NULL                                       |
+| description   | VARCHAR(255)      | NOT NULL                                       |
+| created       | TIMESTAMP         | DEFAULT CURRENT_TIMESTAMP                    |
+| payer_id      | INT               | NOT NULL                                       |
+| group_id      | INT               | NOT NULL                                       |
+|               |                   | FOREIGN KEY (payer_id) REFERENCES users(user_id) |
+|               |                   | FOREIGN KEY (group_id) REFERENCES group_s(id)  |
+
+### Friendship Table
+| Column          | Data Type | Constraints                                  |
+|-----------------|-----------|----------------------------------------------|
+| friendship_id   | INT       | PRIMARY KEY, AUTO_INCREMENT                 |
+| user1_id        | INT       | NOT NULL, FOREIGN KEY (user1_id) REFERENCES users(user_id) |
+| user2_id        | INT       | NOT NULL, FOREIGN KEY (user2_id) REFERENCES users(user_id) |
+
+
   
   
   

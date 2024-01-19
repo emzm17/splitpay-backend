@@ -113,7 +113,9 @@ try {
     const existingCurrUser = existingUser[0][0];
     // console.log(existingCurrUser);
 
-
+    await db.query(
+        'update users set friend_list=? where user_id=?',[JSON.stringify([existingCurrUser.user_id]),existingCurrUser.user_id]
+     );
   
     bcryptjs.compare(password, existingCurrUser.password ,(err,result)=>{
         if(err){
@@ -225,14 +227,15 @@ const sendRequest=async(req,res)=>{
         const checkUser= await db.query(
             `SELECT * FROM users where user_id=?`,[friend]
            );
-           console.log(checkUser[0]);
-           if(checkUser[0].length===0){
+           console.log(checkUser);
+           if(checkUser[0].length==0){
              return res.status(404).json({message: "no user found"});
            }
            const userList= await db.query(
             `SELECT * FROM users where user_id=?`,[user]
            );
            const friendlist=userList[0][0].friend_list;
+           console.log(friendlist);
             for(let j=0;j<friendlist.length;j++){
               if(friend==parseInt(friendlist[j])){
                 return res.status(404).json({message:"user already in friend list"});

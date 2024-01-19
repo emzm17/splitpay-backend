@@ -21,6 +21,7 @@ Splitpay is a collaborative finance management application designed to streamlin
     docker-compose up
 
     
+    
 ## API
 
 #### `/users`
@@ -29,11 +30,17 @@ Splitpay is a collaborative finance management application designed to streamlin
 * `POST` : Create new user.
 #### `/users/signin`
 * `POST` : Login as User.
-#### `/users/groups`
+#### `/users/user-involved-groups`
 * `GET` : Get all groups current user member.
-#### `groups/create`
-* `POST` : Create group.
-#### `groups/:id`
+#### `/users/send-friend-request`
+* `POST` : send friend request.
+#### `/users/accept-friend-request`
+* `POST` : accept friend request.
+#### `/users/friend-request`
+* `GET` : list down friend-request user.
+#### `/users/friend`
+* `GET` : list down friends user. 
+#### `/groups/:id`
 * `GET` : Get expense of that group.
 #### `/expenses`
 * `GET` : Get all Expenses.

@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-  pull requests:configs:
+  pull_requests:
     branches:
       - master    
 

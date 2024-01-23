@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
  app.use("/settlement", settlementRouter);
 
  app.use("/profile", profileRouter);
-
+ app.user("/friend",friendRouter)
 
 
 

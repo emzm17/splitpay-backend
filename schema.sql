@@ -3,7 +3,7 @@ USE `splitpay`;
 
 DROP TABLE IF EXISTS `users`;
 create table `users`(
-     user_id INT PRIMARY KEY AUTO_INCREMENT,
+     user_id UUID DEFAULT UUID() PRIMARY KEY,
      name VARCHAR(255) NOT NULL,
      email VARCHAR(255) NOT NULL,
      password VARCHAR(255) NOT NULL,

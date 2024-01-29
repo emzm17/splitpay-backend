@@ -1,10 +1,6 @@
 
 const db=require('../database');
-
 const  graph=require('../utils/graph');
-
-
-
 
 function maximun_amount(amount){
     let ans=0;
@@ -85,11 +81,8 @@ function minimun_amount(amount){
                     }
                 }
             }
-    
             // row-paye
             // colu-receive
-               
-           
            const N=maxi_size;
            let amount=Array(maxi_size+1).fill(0);
            
@@ -98,11 +91,8 @@ function minimun_amount(amount){
                    amount[i]+=( parseFloat(settlement_graph.adjMatrix[j][i])-parseFloat(settlement_graph.adjMatrix[i][j]));
                 }
              }        
- 
-        min_cash_flow(amount);
-
-
-           
+        logEntries=[]
+        min_cash_flow(amount);           
             for(let i=0;i<logEntries.length;i++){
                   const updateAmount=await db.query(
                     `select * from users where user_id=?`,[logEntries[i].payer]

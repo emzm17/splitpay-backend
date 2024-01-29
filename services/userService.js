@@ -16,6 +16,32 @@ const createUser = async (name, email, hashedPassword) => {
     0,
   ]);
 };
+const friendUpdate = async (userIds) => {
+  try {
+    await db.query('update users set friend_list=? where user_id=?', [
+      JSON.stringify(userIds),
+      userIds[0], // Assuming the first element of the array is the user_id
+    ]);
+
+    return { message: 'Friend list updated successfully' };
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error updating friend list');
+  }
+};
+
+const specificUser=async(userId)=>{
+  try {
+     const specUser=await db.query('select * from users where=?', [
+       userId
+    ]);
+
+    return specUser;
+  } catch (error) {
+    console.error(error);
+    throw new Error('No user present');
+  }
+}
 
 const getAlluser=async=>{
    return db.query('select * from users')
@@ -23,5 +49,7 @@ const getAlluser=async=>{
 module.exports = {
   getUserByEmail,
   createUser,
-  getAlluser
+  getAlluser,
+  friendUpdate,
+  specificUser
 };

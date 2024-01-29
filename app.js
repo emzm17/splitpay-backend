@@ -11,6 +11,7 @@ const groupRouter = require("./routes/groupRouter");
 const expensesRouter = require("./routes/expensesRouter");
 const settlementRouter = require("./routes/settlementRouter");
 const profileRouter = require("./routes/profileRouter");
+const friendRouter = require('./routes/friendRouter');
 
 
 app.get('/', (req, res) => {
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
  app.use("/settlement", settlementRouter);
 
  app.use("/profile", profileRouter);
- app.user("/friend",friendRouter)
+ app.use("/friend",friendRouter)
 
 
 

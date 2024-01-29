@@ -2,6 +2,7 @@
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
+const db = require('../database');
 
 const signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -40,9 +41,12 @@ const signin = async (req, res) => {
     }
 
     const existingCurrUser = existingUser[0][0];
-    await userService.friendUpdate(JSON.stringify([existingCurrUser.user_id]),
-    existingCurrUser.user_id
-    );
+    // await userService.friendUpdate(JSON.stringify([existingCurrUser.user_id])
+    // );
+
+    await db.query('update users set friend_list=? where user_id=?', [
+      JSON.stringify([existingCurrUser.user_id]),
+       existingCurrUser.user_id]); // Assuming the first element of the array is the user_id
 
     bcryptjs.compare(password, existingCurrUser.password, (err, result) => {
       if (err) {
@@ -80,9 +84,21 @@ const allUser=async(req,res)=>{
   }
 }
 
+const specificUser=async(req,res)=>{
+   try{
+     
+    const specUser=await userService.specificUser();
+    return res.status(201).json(specUser[0]);
+    
+   }catch(error){
+    res.status(500).json({ message: 'Something went wrong' });
+   }
+}
+
 
 module.exports = {
   signup,
   signin,
-  allUser
+  allUser,
+  specificUser
 };

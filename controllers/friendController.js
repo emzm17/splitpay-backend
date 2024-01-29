@@ -14,8 +14,12 @@ const getFriendRequests = async (req, res) => {
 const acceptFriendRequest = async (req, res) => {
   try {
     const userId = req.user_id; // Assuming user_id is available in the request
+    console.log(typeof friendId);
     const friendId = req.params.userId;
-    const result = await friendService.acceptFriendRequest(userId, friendId);
+    const confriendId=Number(friendId);
+    console.log(typeof confriendId);
+    console.log(typeof userId); 
+    const result = await friendService.acceptFriendRequest(userId, confriendId);
     res.status(201).json(result);
   } catch (error) {
     console.error(error);

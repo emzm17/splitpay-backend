@@ -11,6 +11,9 @@ expensesRouter.get('/:id',auth,expenseService.getparticularExpense);
 // create the a expense 
 expensesRouter.post('/create',auth,expenseService.createExpense);
 
+// get particular expense from expenses
+expensesRouter.get('/particular/:id',auth,expenseService.particularExpense)
+
 
 
 

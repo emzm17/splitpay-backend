@@ -4,10 +4,11 @@ Splitpay is a collaborative finance management application designed to streamlin
 
 ## Table of Contents
 
-- [Installation](#installation)
+- [Installation](#Install)
 - [Run](#run)
 - [API](#api)
-- [Database Schema](#database schema)
+- [Database schema](#databaseschema)
+
 
 
 ## Install

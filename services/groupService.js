@@ -1,12 +1,6 @@
 // services/groupService.js
 const db = require('../database');
-const redis = require('ioredis');
-
-const redisClient = new redis({
-  host: 'redis',
-  port: process.env.REDIS_PORT,
-  password: process.env.REDIS_PASSWORD,
-});
+const redisClient=require('../utils/redis');
 
 const getAllUserGroups = async (userId) => {
   const keyName = 'getappGroups';

@@ -1,13 +1,6 @@
 // services/friendService.js
 const db = require('../database');
-const redis = require('ioredis');
-
-const redisClient = new redis({
-  host: 'redis',
-  port: process.env.REDIS_PORT,
-  password: process.env.REDIS_PASSWORD,
-});
-
+const redisClient=require('../utils/redis');
 const getFriendRequests = async (userId) => {
   const keyName = 'friendfriends';
   const cached = await redisClient.get(keyName);

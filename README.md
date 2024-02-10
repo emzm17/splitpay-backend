@@ -3,7 +3,7 @@ Splitpay is a collaborative finance management application designed to streamlin
 
 
 ## Table of Contents
-
+- [Project Highlights](#ProjectHighlight)
 - [Installation](#Install)
 - [Run](#run)
 - [API](#api)
@@ -11,6 +11,14 @@ Splitpay is a collaborative finance management application designed to streamlin
 
 
 
+## Project Highlights 
+1. Node.js
+2. Express.js
+3. Mysql
+4. Redis
+5. Docker
+6. JWT
+7. Bcrypt.js
 ## Install
 
     git clone https://github.com/emzm17/splitpay-backend.git

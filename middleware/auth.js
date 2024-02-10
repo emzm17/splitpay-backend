@@ -8,8 +8,8 @@ const auth=(req,res,next)=>{
 
         const token=req.headers.authorization;
         if(token){
-             token=token.split(" ")[1];
-             const user=jwt.verify(token,process.env.SECRET_KEY);
+             const newtoken=token.split(" ")[1];
+             const user=jwt.verify(newtoken,process.env.SECRET_KEY);
              req.user_id=user.id;
 
         }
